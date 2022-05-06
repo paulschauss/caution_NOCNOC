@@ -36,7 +36,8 @@ class Lodgify
 
     response = http.request(request)
     response.read_body
-    booking = JSON.parse(response.read_body)
+    booking = JSON.parse(response.read_body)['items'].first['damage_protection']
+']
     # booking["items"].each do |item|
     #   ap booking.class
     # end
