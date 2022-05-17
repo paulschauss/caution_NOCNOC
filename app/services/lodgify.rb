@@ -37,23 +37,23 @@ class Lodgify
     response = http.request(request)
     response.read_body
     booking = JSON.parse(response.read_body)['items'].first['damage_protection']
-']
+    ap booking
     # booking["items"].each do |item|
     #   ap booking.class
     # end
   end
 
-  def property_info_by_id(property_id)
-    url = URI("https://api.lodgify.com/v1/properties/#{property_id}")
+  # def property_info_by_id(property_id)
+  #   url = URI("https://api.lodgify.com/v1/properties/#{property_id}")
 
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
+  #   http = Net::HTTP.new(url.host, url.port)
+  #   http.use_ssl = true
 
-    request = Net::HTTP::Get.new(url)
-    request["Accept"] = 'text/plain'
-    request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
+  #   request = Net::HTTP::Get.new(url)
+  #   request["Accept"] = 'text/plain'
+  #   request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
 
-    response = http.request(request)
-    puts response.read_body[]
-  end
+  #   response = http.request(request)
+  #   puts response.read_body[]
+  # end
 end
