@@ -16,6 +16,7 @@ class PropertyInfoByIdService
     request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
 
     response = http.request(request)
-    ap response.read_body
+    result = JSON.parse(response.read_body)
+    ap result
   end
 end
