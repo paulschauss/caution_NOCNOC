@@ -41,8 +41,6 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
 
   create_table "properties", force: :cascade do |t|
     t.string "name"
-    t.text "description"
-    t.string "address"
     t.string "zip"
     t.string "city"
     t.string "country"
