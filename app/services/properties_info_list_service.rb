@@ -14,7 +14,7 @@ class PropertiesInfoListService
   end
 
   def set_url
-    @url = URI("https://api.lodgify.com/v2/properties?includeCount=false&includeInOut=false&page=1&size=50")
+    @url = URI("https://api.lodgify.com/v1/properties")
   end
 
   def set_properties
@@ -26,29 +26,33 @@ class PropertiesInfoListService
     request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
 
     response = http.request(request)
-    @api_properties = JSON.parse(response.read_body)["items"]
+    @api_properties = JSON.parse(response.read_body)
   end
 
   def create_properties
     @api_properties.each do |api_property|
 
-      ## set fields
-      id = api_property["id"]
-      name = api_property["name"]
-      description = api_property["description"]
-      latitude = api_property["latitude"]
-      longitude = api_property["longitude"]
-      address = api_property["address"]
-      zip = api_property["zip"]
-      city = api_property["city"]
-      country = api_property["country"]
+      ## set property fields
+      property_id = api_property["id"]
+      property_name = api_property["name"]
+      property_latitude = api_property["latitude"]
+      property_longitude = api_property["longitude"]
+      rooms = api_property["rooms"]
 
       ## Creation de la property
-      prop =  Property.new(id: id, name: name, description: description, latitude: latitude, longitude: longitude, address: address, zip: zip, city: city, country: country)
-      ap prop
+      if Property.where(id: property_id).empty?
+        property = Property.create!(id: property_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
+      end
+
+      ## set property rooms
+      rooms.each do |room|
+        room_id = room["id"]
+        room_name = room["name"]
+        Room.create!(id: room_id, name: room_name, property: property)
+      end
 
       ## Pour plus tard histoire de ne pas encombrer la db
-      # prop.save
+      # property.save
     end
 
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
