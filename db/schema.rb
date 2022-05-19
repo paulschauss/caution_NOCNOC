@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
   enable_extension "plpgsql"
 
   create_table "bookings", force: :cascade do |t|
+    t.integer "lodgify_id"
     t.bigint "user_id", null: false
     t.bigint "guest_id", null: false
     t.bigint "property_id", null: false
