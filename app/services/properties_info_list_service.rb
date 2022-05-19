@@ -5,6 +5,7 @@ require 'openssl'
 class PropertiesInfoListService
 
   def call
+    Property.destroy_all if Rails.env.development?
     set_url
     set_properties
     create_properties
@@ -42,6 +43,8 @@ class PropertiesInfoListService
       ## Creation de la property
       if Property.where(id: property_id).empty?
         property = Property.create!(id: property_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
+        ## add infos to property
+        PropertyInfoByIdService.new(property_id).call
       end
 
       ## set property rooms
@@ -50,6 +53,7 @@ class PropertiesInfoListService
         room_name = room["name"]
         Room.create!(id: room_id, name: room_name, property: property)
       end
+
 
       ## Pour plus tard histoire de ne pas encombrer la db
       # property.save

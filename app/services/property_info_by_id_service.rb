@@ -15,7 +15,7 @@ class PropertyInfoByIdService
   end
 
   def set_url
-    @url = URI("https://api.lodgify.com/v2/properties/#{@property_id}?includeInOut=false")
+    @url = URI("https://api.lodgify.com/v1/properties/#{@property_id}")
   end
 
   def set_property
@@ -31,18 +31,12 @@ class PropertyInfoByIdService
   end
 
   def create_property
-    id = @api_property["id"]
-    name = @api_property["name"]
-    description = @api_property["description"]
-    latitude = @api_property["latitude"]
-    longitude = @api_property["longitude"]
-    address = @api_property["address"]
     zip = @api_property["zip"]
     city = @api_property["city"]
     country = @api_property["country"]
 
-    @property =  Property.new(id: id, name: name, description: description, latitude: latitude, longitude: longitude, address: address, zip: zip, city: city, country: country)
-
+    @property = Property.find(@property_id)
+    @property.update(zip: zip, city: city, country: country)
     ## pour plus tard histoire de ne pas encombrer la db
     # @property.save
 
