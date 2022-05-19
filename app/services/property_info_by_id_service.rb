@@ -11,8 +11,9 @@ class PropertyInfoByIdService
     set_url
     set_property
     create_property
-    set_rooms
   end
+
+  private
 
   def set_url
     @url = URI("https://api.lodgify.com/v1/properties/#{@property_id}")
@@ -35,28 +36,8 @@ class PropertyInfoByIdService
     city = @api_property["city"]
     country = @api_property["country"]
 
-    @property = Property.find(@property_id)
+    @property = Property.find_by(lodgify_id: @property_id)
     @property.update(zip: zip, city: city, country: country)
-    ## pour plus tard histoire de ne pas encombrer la db
-    # @property.save
-
-  end
-
-  def set_rooms
-    @api_property["rooms"].each do |room|
-      id = room["id"]
-      name = room["name"]
-
-      room = Room.new(id: id, name: name, property: @property)
-      ap room
-
-      ## pour plus tard histoire de ne pas encombrer la db
-      # room.save
-
-    end
-
-    ## Pour ne pas return @api_property afin de ne pas encombrer le terminal
-    return "C'est fini"
   end
 
 end

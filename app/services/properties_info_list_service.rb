@@ -9,10 +9,9 @@ class PropertiesInfoListService
     set_url
     set_properties
     create_properties
-
-    ## pour tester sur une seule propriété
-    # test_for_one_property
   end
+
+  private
 
   def set_url
     @url = URI("https://api.lodgify.com/v1/properties")
@@ -34,47 +33,28 @@ class PropertiesInfoListService
     @api_properties.each do |api_property|
 
       ## set property fields
-      property_id = api_property["id"]
+      property_lodgify_id = api_property["id"]
       property_name = api_property["name"]
       property_latitude = api_property["latitude"]
       property_longitude = api_property["longitude"]
       rooms = api_property["rooms"]
 
       ## Creation de la property
-      if Property.where(id: property_id).empty?
-        property = Property.create!(id: property_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
+      if Property.where(lodgify_id: property_lodgify_id).empty?
+        property = Property.create!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
         ## add infos to property
-        PropertyInfoByIdService.new(property_id).call
+        PropertyInfoByIdService.new(property_lodgify_id).call
       end
 
       ## set property rooms
       rooms.each do |room|
-        room_id = room["id"]
+        room_lodgify_id = room["id"]
         room_name = room["name"]
-        Room.create!(id: room_id, name: room_name, property: property)
+        Room.create!(lodgify_id: room_lodgify_id, name: room_name, property: property)
       end
-
-
-      ## Pour plus tard histoire de ne pas encombrer la db
-      # property.save
     end
 
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
     return "C'est fini"
-  end
-
-  ## pour tester sur une seule propriété
-  def test_for_one_property
-    first_property = @api_properties.first
-    id = first_property["id"]
-    name = first_property["name"]
-    description = first_property["description"]
-    latitude = first_property["latitude"]
-    longitude = first_property["longitude"]
-    address = first_property["address"]
-    zip = first_property["zip"]
-    city = first_property["city"]
-    country = first_property["country"]
-    ap Property.new(id: id, name: name, description: description, latitude: latitude, longitude: longitude, address: address, zip: zip, city: city, country: country)
   end
 end
