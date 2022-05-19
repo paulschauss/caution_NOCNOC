@@ -1,6 +1,7 @@
 class CreateRooms < ActiveRecord::Migration[6.1]
   def change
     create_table :rooms do |t|
+      t.integer :lodgify_id
       t.string :name
       t.references :property, null: false, foreign_key: true
 
