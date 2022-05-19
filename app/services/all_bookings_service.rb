@@ -2,13 +2,18 @@ require 'uri'
 require 'net/http'
 require 'openssl'
 
-class AllBookingsService
+class BookingsInTheInboxService
 
-  def initialize
+  def call
+    set_url
+    set_bookings
+  end
+
+  def set_url
     @url = URI("https://api.lodgify.com/v1/reservation")
   end
 
-  def call
+  def set_bookings
     http = Net::HTTP.new(@url.host, @url.port)
     http.use_ssl = true
 
@@ -17,12 +22,7 @@ class AllBookingsService
     request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
 
     response = http.request(request)
-    booking = JSON.parse(response.read_body)['items']
-    ap booking
-    # if booking["arrival"] == Date.today - 1
-    #   # start_date = booking["arrival"]
-    #   # end_date = booking["departure"]
-    #   # Booking.create!(start: )
-    # end
+    @bookings = JSON.parse(response.read_body)['items']
+    ap @booking
   end
 end
