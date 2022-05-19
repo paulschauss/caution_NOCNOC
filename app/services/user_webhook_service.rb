@@ -3,22 +3,33 @@ require 'net/http'
 require 'openssl'
 
 class UserWebhookService
-
-  def initialize
-    @url = URI("https://api.lodgify.com/webhooks/v1/list")
+  def call
+    set_url
+    result = set_webhook
   end
 
-  def call
+  def set_url
+    @url = URI("https://api.lodgify.com/webhooks/v1/subscribe")
+  end
 
-    http = Net::HTTP.new(@url.host, @url.port)
+  def set_webhook
+    http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
 
-    request = Net::HTTP::Get.new(@url)
+    request = Net::HTTP::Post.new(url)
     request["Accept"] = 'text/plain'
-    request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
+    request["Content-Type"] = 'application/*+json'
+    request["X-ApiKey"] = 'F47yidcmfdkYz4xCRDOX+QuQ7ruYWRHHWZyzbogicwqJsrBI8Gb4pQtCGBNZKpAx'
+
+    ## attention a bien remplacé NOTRE_APP_URL
+    request.body = "{\"target_url\":\"NOTRE_APP_URL\",\"event\":\"booking_change\"}"
 
     response = http.request(request)
-    result = JSON.parse(response.read_body)
-    ap result
+    return JSON.parse(response.read_body)
   end
 end
+
+
+
+
+puts response.read_body
