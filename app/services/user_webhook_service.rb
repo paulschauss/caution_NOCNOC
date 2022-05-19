@@ -22,6 +22,7 @@ class UserWebhookService
     request["X-ApiKey"] = 'F47yidcmfdkYz4xCRDOX+QuQ7ruYWRHHWZyzbogicwqJsrBI8Gb4pQtCGBNZKpAx'
 
     ## attention a bien remplacé NOTRE_APP_URL
+    ## par un truc du style https://notre_app_nocnoc.com/webhooks/bookings
     request.body = "{\"target_url\":\"NOTRE_APP_URL\",\"event\":\"booking_change\"}"
 
     response = http.request(request)
