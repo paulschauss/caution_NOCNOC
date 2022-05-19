@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
   enable_extension "plpgsql"
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "user_id", null: false
+    t.integer "lodgify_id"
     t.bigint "guest_id", null: false
     t.bigint "property_id", null: false
     t.date "arrival"
@@ -27,22 +27,20 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["guest_id"], name: "index_bookings_on_guest_id"
     t.index ["property_id"], name: "index_bookings_on_property_id"
-    t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "guests", force: :cascade do |t|
+    t.string "lodgify_id"
     t.string "name"
     t.string "email"
     t.string "phone"
-    t.string "country_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "properties", force: :cascade do |t|
+    t.integer "lodgify_id"
     t.string "name"
-    t.text "description"
-    t.string "address"
     t.string "zip"
     t.string "city"
     t.string "country"
@@ -53,6 +51,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
   end
 
   create_table "rooms", force: :cascade do |t|
+    t.integer "lodgify_id"
     t.string "name"
     t.bigint "property_id", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -74,6 +73,5 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
 
   add_foreign_key "bookings", "guests"
   add_foreign_key "bookings", "properties"
-  add_foreign_key "bookings", "users"
   add_foreign_key "rooms", "properties"
 end
