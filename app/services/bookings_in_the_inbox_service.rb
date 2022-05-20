@@ -6,6 +6,7 @@ class BookingsInTheInboxService
 
   def call
     ## Reset the Bookings and the Guests in the Database
+    PropertiesInfoListService.new.call
     if Rails.env.development?
       Booking.destroy_all
       Guest.destroy_all
