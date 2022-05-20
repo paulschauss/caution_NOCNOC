@@ -17,14 +17,19 @@ class BookingsInTheInboxService
       api_bookings = set_bookings(url)
       create_bookings(api_bookings, property)
     end
+
+    return "C'est fini !"
+
   end
 
   private
+
 
   def set_url(property)
     ap "je set l'url"
     return URI("https://api.lodgify.com/v1/reservation?offset=0&limit=50&status=Booked&trash=false&propertyId=#{property.lodgify_id}")
   end
+
 
   def set_bookings(url)
     ap "je set les bookings"
@@ -39,6 +44,7 @@ class BookingsInTheInboxService
     response = http.request(request)
     return JSON.parse(response.read_body)['items']
   end
+
 
   def create_bookings(api_bookings, property)
     ap "je crée les bookings"
@@ -62,9 +68,10 @@ class BookingsInTheInboxService
       end
     end
 
-    return "C'est fini !"
+    return "Creating done !"
 
   end
+
 
   def create_guest(api_guest)
     if Guest.where(lodgify_id: api_guest['id']).empty?
@@ -77,8 +84,5 @@ class BookingsInTheInboxService
     else
       guest = Guest.find_by(lodgify_id: api_guest['id'])
     end
-
-    return guest
-
   end
 end
