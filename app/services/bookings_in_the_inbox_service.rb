@@ -5,11 +5,13 @@ require 'openssl'
 class BookingsInTheInboxService
 
   def call
+    ## Reset the Bookings and the Guests in the Database
     if Rails.env.development?
       Booking.destroy_all
       Guest.destroy_all
     end
 
+    ## Create the bookings for each property
     Property.all.each do |property|
       url = set_url(property)
       api_bookings = set_bookings(url)
@@ -43,10 +45,10 @@ class BookingsInTheInboxService
     api_bookings.each do |api_booking|
       if Booking.where(lodgify_id: api_booking['id']).empty?
 
-        ## Set the Guest
+        ## Set the Api-Guest
         api_guest = api_booking['guest']
 
-        # Create the Guest
+        # Find or Create the Guest
         guest = create_guest(api_guest)
 
         # Create the Booking
@@ -75,6 +77,8 @@ class BookingsInTheInboxService
     else
       guest = Guest.find_by(lodgify_id: api_guest['id'])
     end
+
     return guest
+
   end
 end
