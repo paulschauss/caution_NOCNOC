@@ -29,8 +29,3 @@ class UserWebhookService
     return JSON.parse(response.read_body)
   end
 end
-
-
-
-
-puts response.read_body
