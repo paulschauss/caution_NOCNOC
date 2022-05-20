@@ -65,12 +65,16 @@ class BookingsInTheInboxService
   end
 
   def create_guest(api_guest)
-    guest = Guest.create!(
-      lodgify_id: api_guest['id'],
-      name: api_guest['name'],
-      email: api_guest['email'],
-      phone: api_guest['phone'],
-    )
+    if Guest.where(lodgify_id: api_guest['id']).empty?
+      guest = Guest.create!(
+        lodgify_id: api_guest['id'],
+        name: api_guest['name'],
+        email: api_guest['email'],
+        phone: api_guest['phone'],
+      )
+    else
+      guest = Guest.find_by(lodgify_id: api_guest['id'])
+    end
     return guest
   end
 end
