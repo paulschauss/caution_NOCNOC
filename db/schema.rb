@@ -50,14 +50,14 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  # create_table "rooms", force: :cascade do |t|
-  #   t.integer "lodgify_id"
-  #   t.string "name"
-  #   t.bigint "property_id", null: false
-  #   t.datetime "created_at", precision: 6, null: false
-  #   t.datetime "updated_at", precision: 6, null: false
-  #   t.index ["property_id"], name: "index_rooms_on_property_id"
-  # end
+  create_table "rooms", force: :cascade do |t|
+    t.integer "lodgify_id"
+    t.string "name"
+    t.bigint "property_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["property_id"], name: "index_rooms_on_property_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
