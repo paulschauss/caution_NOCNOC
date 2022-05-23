@@ -1,0 +1,22 @@
+<div class="container">
+  <h1 class="title">Bookings (<%= @bookings.count %>)</h1>
+  <% if @bookings.empty? %>
+    <p>There are no bookings.</p>
+  <% else %>
+    <div class="bookings">
+      <% @bookings.each do |booking| %>
+        <div class="booking">
+          <%= link_to booking_path(booking) do %>
+            <p>id: <%= booking.id %></p>
+            <p>lodgify_id: <%= booking.lodgify_id %></p>
+            <p>property: <%= booking.property.name %></p>
+            <p>guest: <%= booking.guest.name %></p>
+            <p>arrival: <%= booking.arrival %></p>
+            <p>departure: <%= booking.departure %></p>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+</div>
