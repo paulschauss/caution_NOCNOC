@@ -1,4 +1,4 @@
-class ContactClientService
+class ContactClientsService
   def call
     Booking.all.each do |booking|
       if booking.departure == Date.tomorrow
