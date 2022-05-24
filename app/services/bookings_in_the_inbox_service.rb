@@ -3,7 +3,6 @@ require 'net/http'
 require 'openssl'
 
 class BookingsInTheInboxService
-
   def call
     ## Reset the Bookings and the Guests in the Database
     PropertiesInfoListService.new.call
@@ -20,17 +19,14 @@ class BookingsInTheInboxService
     end
 
     return "C'est fini !"
-
   end
 
   private
-
 
   def set_url(property)
     ap "je set l'url"
     return URI("https://api.lodgify.com/v1/reservation?offset=0&limit=50&status=Booked&trash=false&propertyId=#{property.lodgify_id}")
   end
-
 
   def set_bookings(url)
     ap "je set les bookings"
@@ -46,18 +42,14 @@ class BookingsInTheInboxService
     return JSON.parse(response.read_body)['items']
   end
 
-
   def create_bookings(api_bookings, property)
     ap "je crée les bookings"
     api_bookings.each do |api_booking|
       if Booking.where(lodgify_id: api_booking['id']).empty?
-
         ## Set the Api-Guest
         api_guest = api_booking['guest']
-
         # Find or Create the Guest
         guest = create_guest(api_guest)
-
         # Create the Booking
         Booking.create!(
           lodgify_id: api_booking['id'],
