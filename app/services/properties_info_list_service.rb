@@ -65,7 +65,12 @@ class PropertiesInfoListService
 
       ## Creation de la property
       if Property.where(lodgify_id: property_lodgify_id).empty?
-        property = Property.create!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
+        property = Property.create!(
+                          lodgify_id: property_lodgify_id,
+                          name: property_name,
+                          latitude: property_latitude,
+                          longitude: property_longitude
+                        )
         ## add infos to property
         PropertyInfoByIdService.new(property_lodgify_id).call
       else

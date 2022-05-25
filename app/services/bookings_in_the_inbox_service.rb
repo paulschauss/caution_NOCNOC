@@ -9,11 +9,11 @@ class BookingsInTheInboxService
 
   def call
     ## Reset the Bookings and the Guests in the Database
-    PropertiesInfoListService.new.call
-    if Rails.env.development?
-      Booking.destroy_all
-      Guest.destroy_all
-    end
+    # PropertiesInfoListService.new.call
+    # if Rails.env.development?
+    #   Booking.destroy_all
+    #   Guest.destroy_all
+    # end
 
     ## Create the bookings for each property
     set_url
@@ -21,6 +21,7 @@ class BookingsInTheInboxService
     set_page_number
     set_bookings
     add_bookings
+    @current_page_number += 1
     return "C'est fini !"
   end
 
@@ -54,24 +55,40 @@ class BookingsInTheInboxService
   def set_bookings
     ap "je set les bookings"
     @api_bookings = @json["items"]
+    return 'Bookings set'
   end
 
   def add_bookings
     ap "je crée les bookings"
     @api_bookings.each do |api_booking|
-      ap api_booking
-      if Booking.where(lodgify_id: api_booking['id']).empty?
+       ## set bookings fields
+      booking_lodgify_id = api_booking["id"]
+      booking_guest_id = api_booking["user_id"]
+      booking_property_id = api_booking["property_id"]
+      booking_arrival = api_booking["arrival"]
+      booking_departure = api_booking["departure"]
+      booking_language = api_booking["language"]
+      booking_status = api_booking["status"]
+
+      booking_latitude = api_booking["latitude"]
+      booking_longitude = api_booking["longitude"]
+      ## set booking rooms
+      rooms = api_booking["rooms"]
+
+      if Booking.where(lodgify_id: booking_lodgify_id).empty?
         ## Set the Api-Guest
         api_guest = api_booking['guest']
         # Find or Create the Guest
         guest = create_guest(api_guest)
         # Create the Booking
         Booking.create!(
-          lodgify_id: api_booking['id'],
-          property: property,
-          guest: guest,
-          arrival: api_booking['arrival'],
-          departure: api_booking['departure']
+          lodgify_id: booking_lodgify_id,
+          guest_id: booking_guest_id,
+          property: booking_property_id,
+          arrival: booking_arrival,
+          departure: booking_departure,
+          language: booking_language,
+          status: booking_status
         )
       end
     end
