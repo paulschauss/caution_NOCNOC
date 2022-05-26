@@ -12,9 +12,10 @@ class BookingsInTheInboxService
       Guest.destroy_all
     end
 
-    set_url(1)
+    set_url(10)
     set_json
     set_page_number
+    ap 'tatatata'
     ap @page_number
 
     @page_number.times do |current_page_number|
@@ -81,8 +82,7 @@ class BookingsInTheInboxService
       guest = create_guest(api_guest)
 
       # Create the Booking
-      next property.nil?
-      Booking.find_or_create_by!(
+      next property.nil? ? nil : booking = Booking.find_or_create_by!(
         lodgify_id: booking_lodgify_id,
         guest: guest,
         property: property,
