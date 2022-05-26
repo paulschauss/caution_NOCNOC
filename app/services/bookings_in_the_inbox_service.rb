@@ -15,7 +15,6 @@ class BookingsInTheInboxService
     set_url(10)
     set_json
     set_page_number
-    ap @page_number
 
     @page_number.times do |current_page_number|
       set_url(current_page_number + 1)
@@ -81,7 +80,7 @@ class BookingsInTheInboxService
       guest = create_guest(api_guest)
 
       # Create the Booking
-      next property.nil?
+      next if property.nil?
       Booking.find_or_create_by!(
         lodgify_id: booking_lodgify_id,
         guest: guest,
