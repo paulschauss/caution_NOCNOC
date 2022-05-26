@@ -12,7 +12,7 @@ class BookingsInTheInboxService
       Guest.destroy_all
     end
 
-    set_url(10)
+    set_url(1)
     set_json
     set_page_number
     ap @page_number
