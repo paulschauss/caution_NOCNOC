@@ -4,12 +4,11 @@ require 'openssl'
 
 class PropertiesInfoListService
   def initialize
-    @current_page_number = 1
   end
 
   def call
     # Property.destroy_all if Rails.env.development?
-    set_url
+    set_url(10)
     set_json
     set_page_number
     add_properties
@@ -17,8 +16,8 @@ class PropertiesInfoListService
 
   private
 
-  def set_url
-    @url = URI("https://api.lodgify.com/v2/properties?includeCount=true&includeInOut=false&page=#{@current_page_number}&size=50")
+  def set_url(current_page_number)
+    @url = URI("https://api.lodgify.com/v2/properties?includeCount=true&includeInOut=false&page=#{current_page_number}&size=50")
   end
 
   def set_json
@@ -39,12 +38,11 @@ class PropertiesInfoListService
   end
 
   def add_properties
-    @page_number.times do
-      set_url
+    @page_number.times do |current_page_number|
+      set_url(current_page_number + 1)
       set_json
       set_properties
       create_properties
-      @current_page_number += 1
     end
     return "C'est fini"
   end
@@ -63,22 +61,12 @@ class PropertiesInfoListService
       ## set property rooms
       rooms = api_property["rooms"]
 
-      ## Creation de la property
-      if Property.where(lodgify_id: property_lodgify_id).empty?
-        property = Property.create!(
-                          lodgify_id: property_lodgify_id,
-                          name: property_name,
-                          latitude: property_latitude,
-                          longitude: property_longitude
-                        )
-        ## add infos to property
-        PropertyInfoByIdService.new(property_lodgify_id).call
-      else
-        property = Property.find_by(lodgify_id: property_lodgify_id)
-      end
+
+      ## Create the property or find it id it already exists
+      property = Property.find_or_create_by!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
 
       ## create property rooms
-      create_rooms(rooms, property)
+      # create_rooms(rooms, property)
     end
 
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
