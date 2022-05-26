@@ -5,7 +5,7 @@ require 'openssl'
 class UserWebhookService
   def call
     set_url
-    result = set_webhook
+    set_webhook
   end
 
   def set_url
@@ -13,19 +13,17 @@ class UserWebhookService
   end
 
   def set_webhook
-    http = Net::HTTP.new(url.host, url.port)
+    http = Net::HTTP.new(@url.host, @url.port)
     http.use_ssl = true
 
-    request = Net::HTTP::Post.new(url)
+    request = Net::HTTP::Post.new(@url)
     request["Accept"] = 'text/plain'
     request["Content-Type"] = 'application/*+json'
-    request["X-ApiKey"] = 'F47yidcmfdkYz4xCRDOX+QuQ7ruYWRHHWZyzbogicwqJsrBI8Gb4pQtCGBNZKpAx'
+    request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
 
-    ## attention a bien remplacé NOTRE_APP_URL
-    ## par un truc du style https://notre_app_nocnoc.com/webhooks/bookings
-    request.body = "{\"target_url\":\"NOTRE_APP_URL\",\"event\":\"booking_change\"}"
+    request.body = "{\"target_url\":\"https://caution-nocnoc-staging.herokuapp.com/webhooks/bookings\",\"event\":\"booking_change\"}"
 
     response = http.request(request)
-    return JSON.parse(response.read_body)
+    puts response.read_body
   end
 end
