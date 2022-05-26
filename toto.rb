@@ -1,4 +1,3 @@
-
 def get_amount(caution)
   caution.split(' ').filter { |word| word.chars.include?("€") }.first.chars.delete_if { |c| c == "€" }.join.gsub(",", ".").to_f
 end
