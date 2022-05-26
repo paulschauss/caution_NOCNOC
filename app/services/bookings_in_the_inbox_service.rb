@@ -3,19 +3,25 @@ require 'net/http'
 require 'openssl'
 
 class BookingsInTheInboxService
+
   def call
     ## Reset the Bookings and the Guests in the Database
-    PropertiesInfoListService.new.call
+    # PropertiesInfoListService.new.call
     if Rails.env.development?
       Booking.destroy_all
       Guest.destroy_all
     end
 
-    ## Create the bookings for each property
-    Property.all.each do |property|
-      url = set_url(property)
-      api_bookings = set_bookings(url)
-      create_bookings(api_bookings, property)
+    set_url(10)
+    set_json
+    set_page_number
+    ap @page_number
+
+    @page_number.times do |current_page_number|
+      set_url(current_page_number + 1)
+      set_json
+      set_bookings
+      add_bookings
     end
 
     return "C'est fini !"
@@ -23,59 +29,78 @@ class BookingsInTheInboxService
 
   private
 
-  def set_url(property)
+  def set_url(current_page_number)
     ap "je set l'url"
-    return URI("https://api.lodgify.com/v1/reservation?offset=0&limit=50&status=Booked&trash=false&propertyId=#{property.lodgify_id}")
+    @url = URI("https://api.lodgify.com/v2/reservations/bookings?page=#{current_page_number}&size=50&includeCount=true&includeTransactions=false&includeExternal=false&includeQuoteDetails=true")
   end
 
-  def set_bookings(url)
-    ap "je set les bookings"
+  def set_json
+    ap "je set le json"
 
-    http = Net::HTTP.new(url.host, url.port)
+    http = Net::HTTP.new(@url.host, @url.port)
     http.use_ssl = true
 
-    request = Net::HTTP::Get.new(url)
+    request = Net::HTTP::Get.new(@url)
     request["Accept"] = 'text/plain'
-    request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
+    request["X-ApiKey"] = ENV.fetch("LODGIFY_API_KEY")
 
     response = http.request(request)
-    return JSON.parse(response.read_body)['items']
+    @json = JSON.parse(response.read_body)
   end
 
-  def create_bookings(api_bookings, property)
+  def set_page_number
+    ap "je set le nombre de pages"
+    count = @json["count"]
+    @page_number = (count / 50) + 1
+  end
+
+  def set_bookings
+    ap "je set les bookings"
+    @api_bookings = @json["items"]
+    return 'Bookings set'
+  end
+
+  def add_bookings
     ap "je crée les bookings"
-    api_bookings.each do |api_booking|
-      if Booking.where(lodgify_id: api_booking['id']).empty?
-        ## Set the Api-Guest
-        api_guest = api_booking['guest']
-        # Find or Create the Guest
-        guest = create_guest(api_guest)
-        # Create the Booking
-        Booking.create!(
-          lodgify_id: api_booking['id'],
-          property: property,
-          guest: guest,
-          arrival: api_booking['arrival'],
-          departure: api_booking['departure']
-        )
-      end
+    @api_bookings.each do |api_booking|
+       ## set bookings fields
+      booking_lodgify_id = api_booking["id"]
+      property = Property.find_by(lodgify_id: api_booking["property_id"])
+      booking_arrival = api_booking["arrival"]
+      booking_departure = api_booking["departure"]
+      booking_language = api_booking["language"]
+      booking_status = api_booking["status"]
+
+      ## set booking rooms
+      # rooms = api_booking["rooms"]
+
+      ## Set the Api-Guest
+      api_guest = api_booking['guest']
+
+      # Find or Create the Guest
+      guest = create_guest(api_guest)
+
+      # Create the Booking
+      next property.nil?
+      Booking.find_or_create_by!(
+        lodgify_id: booking_lodgify_id,
+        guest: guest,
+        property: property,
+        arrival: booking_arrival,
+        departure: booking_departure,
+        language: booking_language,
+        status: booking_status
+      )
     end
 
     return "Creating done !"
-
   end
 
-
   def create_guest(api_guest)
-    if Guest.where(lodgify_id: api_guest['id']).empty?
-      guest = Guest.create!(
-        lodgify_id: api_guest['id'],
-        name: api_guest['name'],
-        email: api_guest['email'],
-        phone: api_guest['phone'],
-      )
-    else
-      guest = Guest.find_by(lodgify_id: api_guest['id'])
-    end
+    Guest.create!(
+      name: api_guest['name'],
+      email: api_guest['email'],
+      phone: api_guest['phone']
+    )
   end
 end

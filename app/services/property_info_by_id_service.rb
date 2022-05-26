@@ -16,7 +16,7 @@ class PropertyInfoByIdService
   private
 
   def set_url
-    @url = URI("https://api.lodgify.com/v1/properties/#{@property_id}")
+    @url = URI("https://api.lodgify.com/v2/properties/#{@property_id}?includeInOut=false")
   end
 
   def set_property
@@ -25,7 +25,7 @@ class PropertyInfoByIdService
 
     request = Net::HTTP::Get.new(@url)
     request["Accept"] = 'text/plain'
-    request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
+    request["X-ApiKey"] = ENV.fetch("LODGIFY_API_KEY")
 
     response = http.request(request)
     @api_property = JSON.parse(response.read_body)
@@ -39,5 +39,4 @@ class PropertyInfoByIdService
     @property = Property.find_by(lodgify_id: @property_id)
     @property.update(zip: zip, city: city, country: country)
   end
-
 end

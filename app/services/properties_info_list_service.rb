@@ -61,6 +61,7 @@ class PropertiesInfoListService
       ## set property rooms
       rooms = api_property["rooms"]
 
+
       ## Create the property or find it id it already exists
       property = Property.find_or_create_by!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
 
