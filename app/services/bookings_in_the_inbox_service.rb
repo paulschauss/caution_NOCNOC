@@ -12,10 +12,9 @@ class BookingsInTheInboxService
       Guest.destroy_all
     end
 
-    set_url(10)
+    set_url(100)
     set_json
     set_page_number
-    ap 'tatatata'
     ap @page_number
 
     @page_number.times do |current_page_number|
