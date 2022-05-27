@@ -3,8 +3,6 @@ require 'net/http'
 require 'openssl'
 
 class PropertiesInfoListService
-  def initialize
-  end
 
   def call
     # Property.destroy_all if Rails.env.development?
