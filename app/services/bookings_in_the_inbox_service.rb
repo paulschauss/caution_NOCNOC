@@ -6,7 +6,7 @@ class BookingsInTheInboxService
 
   def call
     ## Reset the Bookings and the Guests in the Database
-    # PropertiesInfoListService.new.call
+    PropertiesInfoListService.new.call
     if Rails.env.development?
       Booking.destroy_all
       Guest.destroy_all
@@ -110,7 +110,8 @@ class BookingsInTheInboxService
   def create_guest(api_guest)
     guest = Guest.find_or_create_by!(
       name: api_guest['name'],
-      email: api_guest['email']
+      email: api_guest['email'],
+      country_code: api_guest['country_code']
     )
     api_guest['phone'].nil? ? guest.update!(phone: "") : guest.update!(phone: get_phone(api_guest['phone']))
     return guest
