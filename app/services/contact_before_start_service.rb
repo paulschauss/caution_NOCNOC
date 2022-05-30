@@ -11,7 +11,7 @@ class ContactBeforeStartService
   private
 
   def from_france?(booking)
-    booking.country_code.upcase == "FR" || booking.phone[0..1] == "06" || booking.phone[0..1] == "07" ? true : false
+    booking.guest.country_code == "FR" || booking.guest.phone[0..1] == "06" || booking.guest.phone[0..1] == "07" ? true : false
   end
 
   def send_mail_to_fr(booking)
