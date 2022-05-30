@@ -8,6 +8,7 @@ class CreateProperties < ActiveRecord::Migration[6.1]
       t.string :country
       t.float :longitude
       t.float :latitude
+      t.string :image_url
 
       t.timestamps
     end
