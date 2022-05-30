@@ -1,7 +1,14 @@
-ap "welcome in the seeds"
-bookings_nil = []
-Booking.all.each do |booking|
-  # ap booking.deposit
-  bookings_nil << booking.lodgify_id if booking.deposit == 1000
+ap "welcome to the unusual seeds"
+
+def good_deposit
+  bookings_nil = Booking.all.filter { |booking| booking.deposit == 1000 }
+  ap "#{bookings_nil.count} / #{Booking.count}"
 end
-ap "#{bookings_nil.count} / #{Booking.count}"
+
+def display_phones
+  Booking.all.each { |booking| ap booking.guest.phone }
+end
+
+# good_deposit()
+
+display_phones()
