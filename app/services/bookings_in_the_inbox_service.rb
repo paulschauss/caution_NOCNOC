@@ -108,15 +108,21 @@ class BookingsInTheInboxService
   end
 
   def create_guest(api_guest)
-    Guest.find_or_create_by!(
+    guest = Guest.find_or_create_by!(
       name: api_guest['name'],
-      email: api_guest['email'],
-      phone: api_guest['phone']
+      email: api_guest['email']
     )
+    api_guest['phone'].nil? ? guest.update!(phone: "") : guest.update!(phone: get_phone(api_guest['phone']))
+    return guest
+  end
+
+  def get_phone(phone)
+    phone_without_space = phone.chars.delete_if { |c| c == " " }.join
+    phone_without_space.chars[0..2].join == "+33" ? "0#{phone_without_space[3..-1]}" : phone_without_space
   end
 
   def get_amount(caution)
-  result = caution.split(' ').filter { |word| word[0..-2] == word[0..-2].to_i.to_s }.filter { |number| number.length >= 3}.first.to_i
-  result == 0 ? 1000 : result
-end
+    result = caution.split(' ').filter { |word| word[0..-2] == word[0..-2].to_i.to_s }.filter { |number| number.length >= 3}.first.to_i
+    result == 0 ? 1000 : result
+  end
 end
