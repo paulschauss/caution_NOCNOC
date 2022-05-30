@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
     t.date "departure"
     t.string "language"
     t.string "status"
+    t.integer "deposit"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["guest_id"], name: "index_bookings_on_guest_id"
