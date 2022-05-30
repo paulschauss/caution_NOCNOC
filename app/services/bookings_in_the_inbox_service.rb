@@ -7,10 +7,10 @@ class BookingsInTheInboxService
   def call
     ## Reset the Bookings and the Guests in the Database
     # PropertiesInfoListService.new.call
-    # if Rails.env.development?
-    #   Booking.destroy_all
-    #   Guest.destroy_all
-    # end
+    if Rails.env.development?
+      Booking.destroy_all
+      Guest.destroy_all
+    end
 
     set_url(10)
     set_json
@@ -73,6 +73,7 @@ class BookingsInTheInboxService
       @booking_departure = api_booking["departure"]
       @booking_language = api_booking["language"]
       @booking_status = api_booking["status"]
+      @booking_deposit = get_amount(api_booking["quote"]["policy"]["name"]) unless api_booking["quote"].nil?
 
       ## set booking rooms
       # rooms = api_booking["rooms"]
@@ -99,9 +100,11 @@ class BookingsInTheInboxService
         arrival: @booking_arrival,
         departure: @booking_departure,
         language: @booking_language,
-        status: @booking_status
+        status: @booking_status,
+        deposit: @booking_deposit
       )
     end
+
   end
 
   def create_guest(api_guest)
@@ -111,4 +114,9 @@ class BookingsInTheInboxService
       phone: api_guest['phone']
     )
   end
+
+  def get_amount(caution)
+  result = caution.split(' ').filter { |word| word[0..-2] == word[0..-2].to_i.to_s }.filter { |number| number.length >= 3}.first.to_i
+  result == 0 ? 1000 : result
+end
 end

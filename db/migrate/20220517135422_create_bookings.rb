@@ -8,6 +8,7 @@ class CreateBookings < ActiveRecord::Migration[6.1]
       t.date :departure
       t.string :language
       t.string :status
+      t.integer :deposit
 
       t.timestamps
     end
