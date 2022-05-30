@@ -55,29 +55,23 @@ class PropertiesInfoListService
       property_lodgify_id = api_property["id"]
       property_name = api_property["name"]
       property_latitude = api_property["latitude"]
-      property_longitude = api_property["longitude"]
-      ## set property rooms
-      rooms = api_property["rooms"]
-
+      property_longitude = api_property["longiproperty_longitude"]
+      property_zip = api_property["zip"]
+      property_city = api_property["city"]
+      property_country = api_property["country"]
+      property_image_url = get_image_url(api_property["image_url"])
 
       ## Create the property or find it id it already exists
-      property = Property.find_or_create_by!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude)
+      property = Property.find_or_create_by!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude, zip: property_zip, city: property_city, country: property_country, image_url: property_image_url)
 
-      ## create property rooms
-      # create_rooms(rooms, property)
     end
 
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
     return "Properties created"
   end
 
-  def create_rooms(rooms, property)
-    rooms.each do |room|
-      room_lodgify_id = room["id"]
-      room_name = room["name"]
-      if Room.where(lodgify_id: room_lodgify_id).empty?
-        Room.create!(lodgify_id: room_lodgify_id, name: room_name, property: property)
-      end
-    end
+  def get_image_url(image_url)
+    image_url.chars[2..-1].join
   end
+
 end
