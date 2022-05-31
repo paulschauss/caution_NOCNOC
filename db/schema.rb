@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
     t.string "name"
     t.string "email"
     t.string "phone"
+    t.string "country_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
