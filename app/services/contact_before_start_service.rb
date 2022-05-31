@@ -11,14 +11,14 @@ class ContactBeforeStartService
   private
 
   def from_france?(booking)
-    booking.guest.country_code == "FR" || booking.guest.phone[0..1] == "06" || booking.guest.phone[0..1] == "07" ? true : false
+    booking.guest.country_code == "FR" || booking.guest.phone[0..1] == "06" || booking.guest.phone[0..1] == "07"
   end
 
   def send_mail_to_fr(booking)
-    ap "Send the message to #{booking.guest.name}, english version"
+    ap "Send the message to #{booking.guest.name}, ENGLISH version"
   end
 
   def send_mail_to_en(booking)
-    ap "Send the message to #{booking.guest.name} french version"
+    ap "Send the message to #{booking.guest.name} FRENCH version"
   end
 end
