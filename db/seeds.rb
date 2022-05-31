@@ -1,8 +1,8 @@
 ap "welcome to the unusual seeds"
 
-def count_good_deposit
+def count_fake_deposit
   bookings_nil = Booking.all.filter { |booking| booking.deposit == 1000 }
-  ap "#{bookings_nil.count} good deposit on #{Booking.count}"
+  ap "#{bookings_nil.count} fake deposit on #{Booking.count}"
 end
 
 def count_french
@@ -14,8 +14,8 @@ def display_phones
   Booking.all.each { |booking| ap booking.guest.phone }
 end
 
-count_good_deposit()
-
-# display_phones()
+count_fake_deposit()
 
 count_french()
+
+# display_phones()
