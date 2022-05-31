@@ -10,6 +10,11 @@ class ContactBeforeEndService
         from_france?(booking) ? send_message_to_fr(booking) : send_message_to_en(booking)
       end
     end
+
+    ## pour tester
+    # booking = Booking.find_by(lodgify_id: 32279172)
+    # send_message_to_fr(booking)
+
     return "Messages sended to clients"
   end
 
@@ -26,7 +31,6 @@ class ContactBeforeEndService
       to: booking.guest.phone,
       body: "Bonjour #{booking.guest.name}, nous vous remercions de votre confiance et de votre séjour chez #{booking.property.name}. Nous vous souhaitons une bonne journée. A bientôt !"
     )
-    ap message
   end
 
   def send_message_to_en(booking)
