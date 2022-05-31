@@ -19,7 +19,7 @@ class UserWebhookService
     request = Net::HTTP::Post.new(@url)
     request["Accept"] = 'text/plain'
     request["Content-Type"] = 'application/*+json'
-    request["X-ApiKey"] = ENV["LODGIFY_API_KEY"]
+    request["X-ApiKey"] = ENV.fetch("LODGIFY_API_KEY")
 
     request.body = "{\"target_url\":\"https://caution-nocnoc-staging.herokuapp.com/webhooks/bookings\",\"event\":\"booking_change\"}"
 
