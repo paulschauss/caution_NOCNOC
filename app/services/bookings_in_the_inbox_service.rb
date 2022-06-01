@@ -113,13 +113,12 @@ class BookingsInTheInboxService
       email: api_guest['email'],
       country_code: api_guest['country_code']
     )
-    api_guest['phone'].nil? ? guest.update!(phone: "") : guest.update!(phone: get_phone(api_guest['phone']))
+    api_guest['phone'].nil? ? guest.update!(phone: "") : guest.update!(phone: remove_space(api_guest['phone']))
     return guest
   end
 
-  def get_phone(phone)
+  def remove_space(phone)
     phone_without_space = phone.chars.delete_if { |c| c == " " }.join
-    phone_without_space.chars[0..2].join == "+33" ? "0#{phone_without_space[3..-1]}" : phone_without_space
   end
 
   def get_amount(caution)

@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_173702) do
     t.string "zip"
     t.string "city"
     t.string "country"
+    t.string "address"
     t.float "longitude"
     t.float "latitude"
     t.string "image_url"
