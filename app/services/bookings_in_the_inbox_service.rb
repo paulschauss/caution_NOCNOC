@@ -7,10 +7,10 @@ class BookingsInTheInboxService
   def call
     ## Reset the Bookings and the Guests in the Database
     PropertiesInfoListService.new.call
-    if Rails.env.development?
-      Booking.destroy_all
-      Guest.destroy_all
-    end
+    # if Rails.env.development?
+    #   Booking.destroy_all
+    #   Guest.destroy_all
+    # end
 
     set_url(10)
     set_json
@@ -58,7 +58,7 @@ class BookingsInTheInboxService
   end
 
   def set_bookings
-    ap "je set les bookings"
+    ap "je set l'api des bookings"
     @api_bookings = @json["items"]
     return 'Bookings set'
   end
@@ -92,9 +92,20 @@ class BookingsInTheInboxService
   end
 
   def create_booking
-    if Booking.find_by(lodgify_id: @booking_lodgify_id).nil?
+    booking = Booking.find_by(lodgify_id: @booking_lodgify_id)
+    if booking.nil?
       Booking.create!(
         lodgify_id: @booking_lodgify_id,
+        guest: @guest,
+        property: @property,
+        arrival: @booking_arrival,
+        departure: @booking_departure,
+        language: @booking_language,
+        status: @booking_status,
+        deposit: @booking_deposit
+      )
+    else
+      booking.update!(
         guest: @guest,
         property: @property,
         arrival: @booking_arrival,

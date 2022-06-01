@@ -62,29 +62,31 @@ class PropertiesInfoListService
       property_country = api_property["country"]
       property_image_url = get_image_url(api_property["image_url"])
 
-      ## Create the property or find it id it already exists
+      ## Create the property or find it if it already exists
       property = Property.find_by(lodgify_id: property_lodgify_id)
       if property.nil?
-        Property.create!(lodgify_id: property_lodgify_id,
-                          name: property_name,
-                          address: property_address,
-                          latitude: property_latitude,
-                          longitude: property_longitude,
-                          zip: property_zip,
-                          city: property_city,
-                          country: property_country,
-                          image_url: property_image_url)
+        Property.create!(
+          lodgify_id: property_lodgify_id,
+          name: property_name,
+          latitude: property_latitude,
+          longitude: property_longitude,
+          zip: property_zip,
+          city: property_city,
+          country: property_country,
+          image_url: property_image_url
+        )
       else
-        property.update!(name: property_name,
-                         address: property_address,
-                         latitude: property_latitude,
-                         longitude: property_longitude,
-                         zip: property_zip,
-                         city: property_city,
-                         country: property_country,
-                         image_url: property_image_url)
+        property.update!(
+          name: property_name,
+          latitude: property_latitude,
+          longitude: property_longitude,
+          zip: property_zip,
+          city: property_city,
+          country: property_country,
+          image_url: property_image_url
+        )
       end
-    end
+
 
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
     return "Properties created"
