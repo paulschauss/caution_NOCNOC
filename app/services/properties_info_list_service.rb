@@ -54,6 +54,7 @@ class PropertiesInfoListService
       ## set property fields
       property_lodgify_id = api_property["id"]
       property_name = api_property["name"]
+      property_address = api_property["address"]
       property_latitude = api_property["latitude"]
       property_longitude = api_property["longiproperty_longitude"]
       property_zip = api_property["zip"]
@@ -86,7 +87,6 @@ class PropertiesInfoListService
         )
       end
 
-    end
 
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
     return "Properties created"

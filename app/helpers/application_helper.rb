@@ -9,10 +9,10 @@ module ApplicationHelper
     result == 0 ? 1000 : result
   end
 
-  def get_phone(phone)
-    phone_without_space = phone.chars.delete_if { |c| c == " " }.join
-    phone_without_space.chars[0..2].join == "+33" ? "0#{phone_without_space[3..-1]}" : phone_without_space
-  end
+  # def get_phone(phone)
+  #   phone_without_space = phone.chars.delete_if { |c| c == " " }.join
+  #   phone_without_space.chars[0..2].join == "+33" ? "0#{phone_without_space[3..-1]}" : phone_without_space
+  # end
 
   def get_image_url(image_url)
     image_url.chars[2..-1].join
