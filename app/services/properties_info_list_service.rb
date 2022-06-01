@@ -61,8 +61,30 @@ class PropertiesInfoListService
       property_country = api_property["country"]
       property_image_url = get_image_url(api_property["image_url"])
 
-      ## Create the property or find it id it already exists
-      property = Property.find_or_create_by!(lodgify_id: property_lodgify_id, name: property_name, latitude: property_latitude, longitude: property_longitude, zip: property_zip, city: property_city, country: property_country, image_url: property_image_url)
+      ## Create the property or find it if it already exists
+      property = Property.find_by(lodgify_id: property_lodgify_id)
+      if property.nil?
+        Property.create!(
+          lodgify_id: property_lodgify_id,
+          name: property_name,
+          latitude: property_latitude,
+          longitude: property_longitude,
+          zip: property_zip,
+          city: property_city,
+          country: property_country,
+          image_url: property_image_url
+        )
+      else
+        property.update!(
+          name: property_name,
+          latitude: property_latitude,
+          longitude: property_longitude,
+          zip: property_zip,
+          city: property_city,
+          country: property_country,
+          image_url: property_image_url
+        )
+      end
 
     end
 
