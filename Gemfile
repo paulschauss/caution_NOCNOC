@@ -40,7 +40,11 @@ gem 'autoprefixer-rails', '10.2.5'
 gem 'font-awesome-sass'
 gem 'simple_form', github: 'heartcombo/simple_form'
 
+# Twilio for messaging
 gem 'twilio-ruby'
+
+# Stripe for payments
+gem 'stripe'
 
 
 group :development, :test do  gem 'pry-byebug'
