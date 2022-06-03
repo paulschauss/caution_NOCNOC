@@ -1,0 +1,12 @@
+<p>
+  <strong>Name:</strong>
+  <%= @caution.name %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @caution.price_cents %>
+</p>
+
+<%= link_to 'Edit', edit_caution_path(@caution) %> |
+<%= link_to 'Back', cautions_path %>
