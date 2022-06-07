@@ -21,7 +21,7 @@ class UserWebhookService
     request["Content-Type"] = 'application/*+json'
     request["X-ApiKey"] = ENV.fetch("LODGIFY_API_KEY")
 
-    request.body = "{\"target_url\":\"https://caution-nocnoc-staging.herokuapp.com/webhooks/bookings\",\"event\":\"booking_change\"}"
+    request.body = "{\"target_url\":\"https://nocnoc-staging.herokuapp.com/webhooks/bookings\",\"event\":\"booking_change\"}"
 
     response = http.request(request)
     puts response.read_body
