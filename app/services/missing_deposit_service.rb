@@ -1,20 +1,24 @@
 class MissingDepositService
 
   def initialize
-    @missing_deposit_guest = []
+    @missing_deposit_guests = []
   end
 
   def call
-    Booking.all.each { |booking| check_deposit(booking) }
-    notifier = Slack::Notifier.new(ENV.fetch("SLACK_WEBHOOK_URL")), username: 'notifier', icon_url: 'https://avatars0.githubusercontent.com/u/14098981?s=200&v=4'
-    # notifier.ping "Missing deposit from #{@missing_deposit_guest.join(", ")}"
-    return "done"
+
+    check_missing_deposit()
+
+    notifier = Slack::Notifier.new ENV.fetch("SLACK_WEBHOOK_URL"), channel: "app-nocnoc", username: 'notifier', icon_url: 'https://avatars0.githubusercontent.com/u/14098981?s=200&v=4'
+    notifier.ping "Missing deposit from #{@missing_deposit_guest.join(", ")}" if @missing_deposit_guest.any?
+
+    return "toto"
   end
 
   private
 
-  def check_deposit(booking)
-    @missing_deposit_guest << booking.guest.name if booking.arrival == Date.today
-    # && booking.caution == "pending"
+  def check_missing_deposit
+    Booking.includes(:guest).where(arrival: Date.today).each do |booking|
+      @missing_deposit_guests << booking.guest.name
+    end
   end
 end
