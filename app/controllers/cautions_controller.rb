@@ -2,7 +2,7 @@ class CautionsController < ApplicationController
   before_action :set_caution, only: %i[show update destroy]
 
   def index
-    @cautions = Product.all
+    @cautions = Caution.all
   end
 
   def show
