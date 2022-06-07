@@ -9,7 +9,7 @@ class MissingDepositService
     check_missing_deposit()
 
     notifier = Slack::Notifier.new ENV.fetch("SLACK_WEBHOOK_URL"), channel: "app-nocnoc", username: 'notifier', icon_url: 'https://avatars0.githubusercontent.com/u/14098981?s=200&v=4'
-    # notifier.ping "Missing deposit from #{@missing_deposit_guest.join(", ")}" if @missing_deposit_guest.any?
+    notifier.ping "Missing deposit from #{@missing_deposit_guest.join(", ")}" if @missing_deposit_guest.any?
 
     return "toto"
   end
