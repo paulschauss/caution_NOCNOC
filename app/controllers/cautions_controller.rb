@@ -9,15 +9,18 @@ class CautionsController < ApplicationController
   end
 
   def new
-    @caution = caution.new
+    @booking = Booking.find(params[:booking_id])
+    @caution = Caution.new
   end
 
   def create
-    @caution = caution.new(caution_params)
+    @caution = Caution.new(caution_params)
+    @booking = Booking.find(params[:booking_id])
+    @caution.booking = @booking
     if @caution.save
-      redirect_to @caution, notice: "Caution was successfully created."
+      redirect_to booking_path(@booking), notice: "Caution was successfully created."
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -37,10 +40,10 @@ class CautionsController < ApplicationController
   private
 
   def set_caution
-    @caution = caution.find(params[:id])
+    @caution = Caution.find(params[:id])
   end
 
   def caution_params
-    params.require(:caution).permit(:name, :price, :price_cents, :currency)
+    params.require(:caution).permit(:name, :amount)
   end
 end

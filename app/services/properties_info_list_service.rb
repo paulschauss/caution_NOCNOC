@@ -86,8 +86,7 @@ class PropertiesInfoListService
           image_url: property_image_url
         )
       end
-
-
+    end
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
     return "Properties created"
   end

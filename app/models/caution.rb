@@ -1,3 +1,5 @@
 class Caution < ApplicationRecord
-  validates :name, :price, presence: true
+  belongs_to :booking
+
+  validates :name, :amount, presence: true
 end
