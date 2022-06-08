@@ -86,8 +86,7 @@ class PropertiesInfoListService
           image_url: property_image_url
         )
       end
-
-
+    end
     ## Pour ne pas return @api_properties afin de ne pas encombrer le terminal
     return "Properties created"
   end
@@ -95,5 +94,4 @@ class PropertiesInfoListService
   def get_image_url(image_url)
     image_url.chars[2..-1].join
   end
-
 end
