@@ -6,7 +6,7 @@ class MissingDepositService
 
   def call
 
-    check_missing_deposit()
+    check_missing_deposits()
 
     notifier = Slack::Notifier.new ENV.fetch("SLACK_WEBHOOK_URL"), channel: "app-nocnoc", username: 'notifier', icon_url: 'https://avatars0.githubusercontent.com/u/14098981?s=200&v=4'
     notifier.ping "Missing deposit from #{@missing_deposit_guest.join(", ")}" if @missing_deposit_guest.any?
@@ -16,7 +16,7 @@ class MissingDepositService
 
   private
 
-  def check_missing_deposit
+  def check_missing_deposits
     Booking.includes(:guest).where(arrival: Date.today).each do |booking|
       @missing_deposit_guests << booking.guest.name
     end
