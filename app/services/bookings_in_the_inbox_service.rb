@@ -65,6 +65,7 @@ class BookingsInTheInboxService
   def create_bookings
     ap "je crée les bookings"
     @api_bookings.each do |api_booking|
+      if api_booking["status"] == "Booked"
       ## set bookings fields
       @booking_lodgify_id = api_booking["id"]
       @property = Property.find_by(lodgify_id: api_booking["property_id"])
@@ -87,6 +88,7 @@ class BookingsInTheInboxService
 
       # Create the Booking
       @property.nil? ? next : create_booking
+      end
     end
 
     return "Creating done !"
