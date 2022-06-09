@@ -133,7 +133,7 @@ class BookingsInTheInboxService
   end
 
   def get_amount(caution)
-    result = caution.split(' ').filter { |word| word[0..-2] == word[0..-2].to_i.to_s }.filter { |number| number.length >= 3}.first.to_i
-    result == 0 ? 1000 : result
+    result = caution.gsub(",", ".").split.filter { |word| Float(word[0..-2]).to_s.length >= 4 rescue false }.reject { |num| num.chars.include?(":") }.first.to_i
+    result == 0 ? "#{1000} not ok" : "#{result} ok"
   end
 end
