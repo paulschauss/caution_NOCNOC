@@ -1,18 +1,8 @@
 class Webhooks::BookingsController < ActionController::Base
   def create
-    p ""
-    p ""
-    p ""
-    p ""
-    p ""
-    p ""
-    ap "pour voir ce que je recois de la requete post du webhook"
-    ap params
-    p ""
-    p ""
-    p ""
-    p ""
-    p ""
-    p ""
+    json = params.to_json
+    json_parsed = JSON.parse(json)
+    booking_id = json_parsed["_json"][0]["booking"]["id"]
+    BookingByIdService.new(booking_id).call
   end
 end
