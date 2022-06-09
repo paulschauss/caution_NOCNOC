@@ -3,7 +3,6 @@ require 'net/http'
 require 'openssl'
 
 class BookingsInTheInboxService
-
   def call
     ## Reset the Bookings and the Guests in the Database
     PropertiesInfoListService.new.call
@@ -84,6 +83,8 @@ class BookingsInTheInboxService
       # Find or Create the Guest
       @guest = create_guest(api_guest)
 
+      # Find or Create the Caution
+
       # Create the Booking
       @property.nil? ? next : create_booking
     end
@@ -94,7 +95,7 @@ class BookingsInTheInboxService
   def create_booking
     booking = Booking.find_by(lodgify_id: @booking_lodgify_id)
     if booking.nil?
-      Booking.create!(
+      booking = Booking.create!(
         lodgify_id: @booking_lodgify_id,
         guest: @guest,
         property: @property,
@@ -104,6 +105,7 @@ class BookingsInTheInboxService
         status: @booking_status,
         deposit: @booking_deposit
       )
+      create_caution(booking)
     else
       booking.update!(
         guest: @guest,
@@ -115,7 +117,6 @@ class BookingsInTheInboxService
         deposit: @booking_deposit
       )
     end
-
   end
 
   def create_guest(api_guest)
@@ -128,8 +129,17 @@ class BookingsInTheInboxService
     return guest
   end
 
+  def create_caution(booking)
+    caution = Caution.find_or_create_by!(
+      name: "Caution de #{booking.guest.name} booking_id n°#{booking.id}",
+      amount: booking.deposit,
+      booking: booking
+    )
+    return caution
+  end
+
   def remove_space(phone)
-    phone_without_space = phone.chars.delete_if { |c| c == " " }.join
+    phone.chars.delete_if { |c| c == " " }.join
   end
 
   def get_amount(caution)
