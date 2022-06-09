@@ -16,17 +16,19 @@ def get_image_url(image_url)
   image_url.chars[2..-1].join
 end
 
+## Get image test
 # p get_image_url("//l.icdbcdn.com/oh/0f987734-d443-40da-877c-f8c426e79de2.jpg?f=32")
 
-p get_amount("Caution 1000: 1078,82€ sous 5 jours")
-p get_amount("Caution 2: 1078,82€ sous 5 jours")
-p get_amount("Caution 1200")
-p get_amount("1000 CAUTION")
-p get_amount("Politique Lyon (remboursement 5 jours) caution 1500€")
-p get_amount("Caution 1000: 1078.82€ sous 5 jours")
+## Get amount test
+# p get_amount("Caution 1000: 1078,82€ sous 5 jours")
+# p get_amount("Caution 2: 1078,82€ sous 5 jours")
+# p get_amount("Caution 1200")
+# p get_amount("1000 CAUTION")
+# p get_amount("Politique Lyon (remboursement 5 jours) caution 1500€")
+# p get_amount("Caution 1000: 1078.82€ sous 5 jours")
+# p get_amount("N/D")
 
-p get_amount("N/D")
-
+## Get phone test
 # p get_phone("+33 6 82 48 19 37")
 # p get_phone("+33707070707")
 # p get_phone("0613653334")
