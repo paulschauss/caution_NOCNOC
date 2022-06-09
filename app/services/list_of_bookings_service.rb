@@ -2,7 +2,7 @@ require 'uri'
 require 'net/http'
 require 'openssl'
 
-class BookingsInTheInboxService
+class ListOfBookingsService
   def call
     ## Reset the Bookings and the Guests in the Database
     PropertiesInfoListService.new.call
@@ -66,28 +66,28 @@ class BookingsInTheInboxService
     ap "je crée les bookings"
     @api_bookings.each do |api_booking|
       if api_booking["status"] == "Booked"
-      ## set bookings fields
-      @booking_lodgify_id = api_booking["id"]
-      @property = Property.find_by(lodgify_id: api_booking["property_id"])
-      @booking_arrival = api_booking["arrival"]
-      @booking_departure = api_booking["departure"]
-      @booking_language = api_booking["language"]
-      @booking_status = api_booking["status"]
-      @booking_deposit = get_amount(api_booking["quote"]["policy"]["name"]) unless api_booking["quote"].nil?
+        ## set bookings fields
+        @booking_lodgify_id = api_booking["id"]
+        @property = Property.find_by(lodgify_id: api_booking["property_id"])
+        @booking_arrival = api_booking["arrival"]
+        @booking_departure = api_booking["departure"]
+        @booking_language = api_booking["language"]
+        @booking_status = api_booking["status"]
+        @booking_deposit = get_amount(api_booking["quote"]["policy"]["name"]) unless api_booking["quote"].nil?
 
-      ## set booking rooms
-      # rooms = api_booking["rooms"]
+        ## set booking rooms
+        # rooms = api_booking["rooms"]
 
-      ## Set the Api-Guest
-      api_guest = api_booking['guest']
+        ## Set the Api-Guest
+        api_guest = api_booking['guest']
 
-      # Find or Create the Guest
-      @guest = create_guest(api_guest)
+        # Find or Create the Guest
+        @guest = create_guest(api_guest)
 
-      # Find or Create the Caution
+        # Find or Create the Caution
 
-      # Create the Booking
-      @property.nil? ? next : create_booking
+        # Create the Booking
+        @property.nil? ? next : create_booking
       end
     end
 
@@ -146,6 +146,6 @@ class BookingsInTheInboxService
 
   def get_amount(caution)
     result = caution.gsub(",", ".").split.filter { |word| Float(word[0..-2]).to_s.length >= 4 rescue false }.reject { |num| num.chars.include?(":") }.first.to_i
-    result == 0 ? "#{1000} not ok" : "#{result} ok"
+    result == 0 ? "#{1000}" : "#{result}"
   end
 end
