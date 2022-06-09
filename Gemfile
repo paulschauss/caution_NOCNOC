@@ -51,6 +51,9 @@ gem "slack-notifier"
 # Stripe for payments
 gem 'stripe'
 
+# Use Amazing print to make my console beautiful
+gem 'amazing_print', '1.2.2'
+
 
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
@@ -70,8 +73,6 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 
-  # Use Amazing print to make my console beautiful
-  gem 'amazing_print', '1.2.2'
 end
 
 group :test do
