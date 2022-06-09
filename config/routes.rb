@@ -2,10 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
 
-  resources :bookings, only: [:index, :show] do
-    resources :cautions
-  end
-  resources :cautions, only: [:destroy]
+  resources :bookings, only: %i[index show]
+
+  resources :cautions, only: %i[index show]
 
   resources :hold, only: [:create]
 

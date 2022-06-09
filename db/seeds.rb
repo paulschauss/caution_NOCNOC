@@ -19,49 +19,51 @@
 # count_french()
 
 # display_phones()
-prop = Property.find_by(lodgify_id: 32279172)
-prop.destroy unless prop.nil?
-prop = Property.create!(
-  lodgify_id: 32279172,
-  name: "Ma belle maison",
-  address: "41 avenue lamartine",
-  zip: "69100",
-  city: "Lyon",
-  country: "France",
-)
-ap "#{prop.name} created"
 
-ben = Guest.find_by(name: "Benjamin Boisson")
-ben.destroy unless ben.nil?
-ben = Guest.create!(
-  lodgify_id: 32279172,
-  name: "Benjamin Boisson",
-  email: "benjbdk@gmail.com",
-  phone: "+33613653334"
-)
-ap "#{ben.name} created"
 
-book = Booking.find_by(lodgify_id: 32279172)
-book.destroy unless book.nil?
-Booking.create!(
-  guest: ben,
-  property: prop,
-  arrival: Date.today,
-  departure: Date.today + 1,
-  status: "available",
-  language: "fr",
-  deposit: 1000
-)
+# prop = Property.find_by(lodgify_id: 32279172)
+# prop.destroy unless prop.nil?
+# prop = Property.create!(
+#   lodgify_id: 32279172,
+#   name: "Ma belle maison",
+#   address: "41 avenue lamartine",
+#   zip: "69100",
+#   city: "Lyon",
+#   country: "France",
+# )
+# ap "#{prop.name} created"
 
-ap "the booking created"
-ap prop
-ap ben
-ap book
+# ben = Guest.find_by(name: "Benjamin Boisson")
+# ben.destroy unless ben.nil?
+# ben = Guest.create!(
+#   lodgify_id: 32279172,
+#   name: "Benjamin Boisson",
+#   email: "benjbdk@gmail.com",
+#   phone: "+33613653334"
+# )
+# ap "#{ben.name} created"
 
-Caution.create!(
-  booking: book,
-  name: "#{prop.name} caution for #{ben.name}",
-  amount: book.deposit
-)
+# book = Booking.find_by(lodgify_id: 32279172)
+# book.destroy unless book.nil?
+# Booking.create!(
+#   guest: ben,
+#   property: prop,
+#   arrival: Date.today,
+#   departure: Date.today + 1,
+#   status: "available",
+#   language: "fr",
+#   deposit: 1000
+# )
 
-ap "and the caution created"
+# ap "the booking created"
+# ap prop
+# ap ben
+# ap book
+
+# Caution.create!(
+#   booking: book,
+#   name: "#{prop.name} caution for #{ben.name}",
+#   amount: book.deposit
+# )
+
+# ap "and the caution created"

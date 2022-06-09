@@ -6,6 +6,7 @@ class CautionsController < ApplicationController
   end
 
   def show
+    @caution = Caution.find(params[:id])
   end
 
   def new
