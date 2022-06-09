@@ -10,6 +10,12 @@ namespace :contact do
     puts "executing contact:before_end task"
     ContactBeforeEndService.new.call
   end
+
+  desc "prevent on slack if there are missing deposits"
+  task missing_deposit: :environment do
+    puts "executing contact:missing_deposit task"
+    MissingDepositService.new.call
+  end
 end
 
 ## to run:

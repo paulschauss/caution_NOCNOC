@@ -3,8 +3,8 @@
 # end
 
 def get_amount(caution)
-  result = caution.split(' ').filter { |word| word[0..-2] == word[0..-2].to_i.to_s }.filter { |number| number.length >= 3}.first.to_i
-  result == 0 ? 1000 : result
+  result = caution.gsub(",", ".").split.filter { |word| Float(word[0..-2]).to_s.length >= 4 rescue false }.reject { |num| num.chars.include?(":") }.first.to_i
+  result == 0 ? "#{1000} not ok" : "#{result} ok"
 end
 
 def get_phone(phone)
@@ -16,13 +16,18 @@ def get_image_url(image_url)
   image_url.chars[2..-1].join
 end
 
-p get_image_url("//l.icdbcdn.com/oh/0f987734-d443-40da-877c-f8c426e79de2.jpg?f=32")
+# p get_image_url("//l.icdbcdn.com/oh/0f987734-d443-40da-877c-f8c426e79de2.jpg?f=32")
 
-p get_amount("Caution 2: 1000,82€ sous 5 jours")
+p get_amount("Caution 1000: 1078,82€ sous 5 jours")
+p get_amount("Caution 2: 1078,82€ sous 5 jours")
+p get_amount("Caution 1200")
+p get_amount("1000 CAUTION")
+p get_amount("Politique Lyon (remboursement 5 jours) caution 1500€")
+p get_amount("Caution 1000: 1078.82€ sous 5 jours")
 
 p get_amount("N/D")
 
-p get_phone("+33 6 82 48 19 37")
-p get_phone("+33707070707")
-p get_phone("0613653334")
-p get_phone("447952480853")
+# p get_phone("+33 6 82 48 19 37")
+# p get_phone("+33707070707")
+# p get_phone("0613653334")
+# p get_phone("447952480853")

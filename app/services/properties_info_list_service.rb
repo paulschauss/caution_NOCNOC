@@ -94,5 +94,4 @@ class PropertiesInfoListService
   def get_image_url(image_url)
     image_url.chars[2..-1].join
   end
-
 end

@@ -33,15 +33,20 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Authentication
 gem 'devise'
 
-#Authorization
+# Authorization
 gem 'pundit'
 
+# Front end
 gem 'autoprefixer-rails', '10.2.5'
 gem 'font-awesome-sass'
 gem 'simple_form', github: 'heartcombo/simple_form'
 
 # Twilio for messaging
 gem 'twilio-ruby'
+
+# Slack for notifications
+gem "slack-notifier"
+
 
 # Stripe for payments
 gem 'stripe'
