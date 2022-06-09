@@ -139,11 +139,12 @@ class BookingsInTheInboxService
   end
 
   def remove_space(phone)
-    phone_without_space = phone.chars.delete_if { |c| c == " " }.join
+    phone.chars.delete_if { |c| c == " " }.join
   end
 
   def get_amount(caution)
-    result = caution.split(' ').filter { |word| word[0..-2] == word[0..-2].to_i.to_s }.filter { |number| number.length >= 3}.first.to_i
-    result == 0 ? 1000 : result
+    result = caution.split.filter { |word| word[0..-2] == word[0..-2].to_i.to_s }
+    result = result.filter { |number| number.length >= 3 }.first.to_i
+    result.zero? ? 1000 : result
   end
 end
