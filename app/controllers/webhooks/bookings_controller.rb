@@ -1,4 +1,6 @@
 class Webhooks::BookingsController < ActionController::Base
+  skip_before_filter :verify_authenticity_token, only: %i[create]
+
   def create
     json = params.to_json
     json_parsed = JSON.parse(json)
