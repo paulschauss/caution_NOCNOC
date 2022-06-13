@@ -21,49 +21,47 @@
 # display_phones()
 
 
-# prop = Property.find_by(lodgify_id: 32279172)
-# prop.destroy unless prop.nil?
-# prop = Property.create!(
-#   lodgify_id: 32279172,
-#   name: "Ma belle maison",
-#   address: "41 avenue lamartine",
-#   zip: "69100",
-#   city: "Lyon",
-#   country: "France",
-# )
-# ap "#{prop.name} created"
+property = Property.find_by(lodgify_id: 32279172)
+property.destroy unless property.nil?
+property = Property.create!(
+  lodgify_id: 32279172,
+  name: "Ma belle maison",
+  address: "41 avenue lamartine",
+  zip: "69100",
+  city: "Lyon",
+  country: "France",
+)
+ap property
 
-# ben = Guest.find_by(name: "Benjamin Boisson")
-# ben.destroy unless ben.nil?
-# ben = Guest.create!(
-#   lodgify_id: 32279172,
-#   name: "Benjamin Boisson",
-#   email: "benjbdk@gmail.com",
-#   phone: "+33613653334"
-# )
-# ap "#{ben.name} created"
+ben = Guest.find_by(name: "Benjamin Boisson")
+ben.destroy unless ben.nil?
+ben = Guest.create!(
+  lodgify_id: 32279172,
+  name: "Benjamin Boisson",
+  email: "benjbdk@gmail.com",
+  phone: "+33613653334"
+)
+ap ben
 
-# book = Booking.find_by(lodgify_id: 32279172)
-# book.destroy unless book.nil?
-# Booking.create!(
-#   guest: ben,
-#   property: prop,
-#   arrival: Date.today,
-#   departure: Date.today + 1,
-#   status: "available",
-#   language: "fr",
-#   deposit: 1000
-# )
+booking = Booking.find_by(lodgify_id: 32279172)
+booking.destroy unless booking.nil?
+booking = Booking.create!(
+  guest: ben,
+  lodgify_id: 32279172,
+  property: property,
+  arrival: Date.today,
+  departure: Date.today + 1,
+  status: "available",
+  language: "fr",
+  deposit: 1000
+)
+ap booking
 
-# ap "the booking created"
-# ap prop
-# ap ben
-# ap book
-
-# Caution.create!(
-#   booking: book,
-#   name: "#{prop.name} caution for #{ben.name}",
-#   amount: book.deposit
-# )
+caution = Caution.create!(
+  booking: booking,
+  name: "#{property.name} caution for #{ben.name}",
+  amount: booking.deposit
+)
+ap caution
 
 # ap "and the caution created"
