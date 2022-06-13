@@ -1,14 +1,14 @@
 namespace :contact do
   desc "send the quote before he arrives"
-  task before_start: :environment do
-    puts "executing contact:before_start task"
-    ContactBeforeStartService.new.call
+  task one_day_before_checkin: :environment do
+    puts "executing contact:one_day_before_checkin task"
+    OneDayBeforeCheckinService.new.call
   end
 
   desc "contact guest before he leaves"
-  task before_end: :environment do
-    puts "executing contact:before_end task"
-    ContactBeforeEndService.new.call
+  task one_day_before_checkout: :environment do
+    puts "executing contact:one_day_before_checkout task"
+    OneDayBeforeCheckoutService.new.call
   end
 
   desc "prevent on slack if there are missing deposits"
@@ -23,12 +23,12 @@ end
 #     namespace
 #         |
 #         v
-# rake contact:before_start
-#                   ^
-#                   |
-#                 task
+# rake contact:one_day_before_checkout
+#                        ^
+#                        |
+#                      task
 
 
 ## or if you want to run it only one environment
 
-# rake contact:before_start environment=development ## or ## rake contact:before_start environment=production
+# rake contact:one_day_before_checkout environment=development ## or ## rake contact:one_day_before_checkout environment=production
