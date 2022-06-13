@@ -6,18 +6,18 @@ class OneDayBeforeCheckinService
   end
 
   def call
-    # Booking.includes(:guest, :property).where(arrival: Date.tomorrow).each do |booking|
-    #   @booking = booking
-    #   @guest = booking.guest
-    #   @property = booking.property
-    #   send_message()
-    # end
+    Booking.includes(:guest, :property).where(arrival: Date.tomorrow).each do |booking|
+      @booking = booking
+      @guest = booking.guest
+      @property = booking.property
+      send_message()
+    end
 
     # pour tester
-    @booking = Booking.find_by(lodgify_id: 32279172)
-    @guest = @booking.guest
-    @property = @booking.property
-    send_message()
+    # @booking = Booking.find_by(lodgify_id: 32279172)
+    # @guest = @booking.guest
+    # @property = @booking.property
+    # send_message()
   end
 
   private
