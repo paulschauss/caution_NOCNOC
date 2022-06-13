@@ -1,4 +1,4 @@
-namespace :contact do
+namespace :contact_client do
   desc "send the quote before he arrives"
   task one_day_before_checkin: :environment do
     puts "executing contact:one_day_before_checkin task"
@@ -10,7 +10,9 @@ namespace :contact do
     puts "executing contact:one_day_before_checkout task"
     OneDayBeforeCheckoutService.new.call
   end
+end
 
+namespace :contact_nocnoc do
   desc "prevent on slack if there are missing deposits"
   task missing_deposit: :environment do
     puts "executing contact:missing_deposit task"
@@ -18,12 +20,13 @@ namespace :contact do
   end
 end
 
+
 ## to run:
 
 #     namespace
 #         |
 #         v
-# rake contact:one_day_before_checkout
+# rake contact_client:one_day_before_checkout
 #                        ^
 #                        |
 #                      task
