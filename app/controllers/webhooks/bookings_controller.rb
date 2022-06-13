@@ -13,7 +13,5 @@ class Webhooks::BookingsController < ActionController::Base
     ## update or create the booking
     booking_id = booking["id"]
     BookingByIdService.new(booking_id).call
-
-    head :ok
   end
 end
