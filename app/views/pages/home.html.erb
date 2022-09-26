@@ -1,2 +1,18 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>Dashboard</h1>
+<h2>Listes de toutes les réservations du jour</h2>
+<div class="toto">
+  <% ["Appartement", "Nom", "Pre-checkin", "ETA", "Etat caution"].each do |label| %>
+    <p> <%= label %> </p>
+  <% end %>
+</div>
+<% @bookings_of_today.each do |booking| %>
+    <p>Appartement: <%= booking.property.name %></p>
+    <p><%= booking.guest.name %></p>
+    <p>Pre-checkin: TO DO</p>
+    <p>ETA : TO DO</p>
+    <p>Etat caution : TO DO</p>
+    <p>Lien formulaire</p>
+    <br>
+<% end %>
+
+<a href="#">azertyuio</a>
