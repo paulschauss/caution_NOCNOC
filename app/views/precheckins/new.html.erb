@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>New pre-CI</h1>
+  <%= simple_form_for [@booking, @precheckin] do |f| %>
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
+    <%= f.input :email %>
+    <%= f.submit %>
+  <% end %>
+</div>

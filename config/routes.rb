@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
 
-  resources :bookings, only: %i[index show]
+  resources :bookings, only: %i[index show] do
+    resources :precheckins, only: %i[new create]
+  end
 
   resources :cautions, only: %i[index show]
 
