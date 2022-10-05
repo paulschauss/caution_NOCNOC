@@ -1,0 +1,2 @@
+class PrecheckinsController < ApplicationController
+end
