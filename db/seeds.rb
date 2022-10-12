@@ -20,9 +20,8 @@
 
 # display_phones()
 
-
-property = Property.find_by(lodgify_id: 32279172)
-property.destroy unless property.nil?
+property = Property.find_by(lodgify_id: 32_279_172)
+property&.destroy
 property = Property.create!(
   lodgify_id: 32279172,
   name: "Ma belle maison",
@@ -34,7 +33,7 @@ property = Property.create!(
 ap property
 
 ben = Guest.find_by(name: "Benjamin Boisson")
-ben.destroy unless ben.nil?
+ben&.destroy
 ben = Guest.create!(
   lodgify_id: 32279172,
   name: "Benjamin Boisson",
@@ -44,7 +43,7 @@ ben = Guest.create!(
 ap ben
 
 booking = Booking.find_by(lodgify_id: 32279172)
-booking.destroy unless booking.nil?
+booking&.destroy
 booking = Booking.create!(
   guest: ben,
   lodgify_id: 32279172,
@@ -63,5 +62,3 @@ caution = Caution.create!(
   amount: booking.deposit
 )
 ap caution
-
-# ap "and the caution created"

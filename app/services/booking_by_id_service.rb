@@ -3,7 +3,6 @@ require 'net/http'
 require 'openssl'
 
 class BookingByIdService
-
   def initialize(lodgify_id)
     @lodgify_id = lodgify_id
   end
@@ -47,8 +46,7 @@ class BookingByIdService
     @booking_status = @api_booking["status"]
     @booking_deposit = get_amount(@api_booking["quote"]["policy"]["name"]) unless @api_booking["quote"].nil?
 
-    create_booking() unless @property.nil?
-
+    create_booking unless @property.nil?
   end
 
   def create_booking

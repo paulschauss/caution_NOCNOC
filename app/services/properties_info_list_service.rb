@@ -3,10 +3,9 @@ require 'net/http'
 require 'openssl'
 
 class PropertiesInfoListService
-
   def call
     # Property.destroy_all if Rails.env.development?
-    set_url(10)
+    url(10)
     set_json
     set_page_number
     add_properties
@@ -14,7 +13,7 @@ class PropertiesInfoListService
 
   private
 
-  def set_url(current_page_number)
+  def url(current_page_number)
     @url = URI("https://api.lodgify.com/v2/properties?includeCount=true&includeInOut=false&page=#{current_page_number}&size=50")
   end
 
@@ -37,7 +36,7 @@ class PropertiesInfoListService
 
   def add_properties
     @page_number.times do |current_page_number|
-      set_url(current_page_number + 1)
+      url(current_page_number + 1)
       set_json
       set_properties
       create_properties

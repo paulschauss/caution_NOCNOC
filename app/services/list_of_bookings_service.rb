@@ -11,7 +11,7 @@ class ListOfBookingsService
     #   Guest.destroy_all
     # end
 
-    set_url(10)
+    url(10)
     set_json
     set_page_number
     add_bookings
@@ -21,7 +21,7 @@ class ListOfBookingsService
 
   private
 
-  def set_url(current_page_number)
+  def url(current_page_number)
     ap "je set l'url"
     @url = URI("https://api.lodgify.com/v2/reservations/bookings?page=#{current_page_number}&size=50&includeCount=true&includeTransactions=false&includeExternal=false&includeQuoteDetails=true")
   end
@@ -46,10 +46,9 @@ class ListOfBookingsService
     @page_number = (count / 50) + 1
   end
 
-
   def add_bookings
     @page_number.times do |current_page_number|
-      set_url(current_page_number + 1)
+      url(current_page_number + 1)
       set_json
       set_bookings
       create_bookings

@@ -1,5 +1,4 @@
 class OneDayBeforeCheckoutService
-
   def initialize
     @client = Twilio::REST::Client.new(ENV.fetch('ACCOUNT_SID'), ENV.fetch('AUTH_TOKEN'))
   end
@@ -9,7 +8,7 @@ class OneDayBeforeCheckoutService
       @booking = booking
       @guest = booking.guest
       @property = booking.property
-      send_message()
+      send_message
     end
 
     ## pour tester
