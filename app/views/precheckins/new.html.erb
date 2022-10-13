@@ -4,6 +4,42 @@
     <%= f.input :first_name %>
     <%= f.input :last_name %>
     <%= f.input :email %>
+
+    <!-- Stripe hold a card Element below -->
+    <div id="card"></div>
+
     <%= f.submit %>
   <% end %>
 </div>
+
+<script charset="utf-8">
+  var stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
+  // load the fonts in
+  var fonts = [{
+    cssSrc: "https://fonts.googleapis.com/css?family=Karla",
+  }];
+  // styles for the stripe inputs
+  var styles = {
+    base: {
+        color: "#32325D",
+        fontWeight: 500,
+        fontFamily: "Inter, Open Sans, Segoe UI, sans-serif",
+        fontSize: "16px",
+        fontSmoothing: "antialiased",
+
+        "::placeholder": {
+          color: "#CFD7DF"
+        }
+      },
+      invalid: {
+        color: "#E25950"
+      },
+  }
+
+  var elements = stripe.elements();
+  var cardElement = elements.create('card', {
+    style: styles,
+    hidePostalCode: true,
+    });
+  cardElement.mount('#card');
+</script>
