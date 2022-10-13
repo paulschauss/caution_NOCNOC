@@ -69,6 +69,7 @@ class PropertiesInfoListService
           name: property_name,
           latitude: property_latitude,
           longitude: property_longitude,
+          address: property_address,
           zip: property_zip,
           city: property_city,
           country: property_country,

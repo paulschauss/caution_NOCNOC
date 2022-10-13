@@ -1,11 +1,14 @@
 class PrecheckinsController < ApplicationController
   def new
-    @booking = Booking.find(params[:booking_id])
+    @booking    = Booking.find(params[:booking_id])
+    @guest      = @booking.guest
+    @property   = @booking.property
     @precheckin = Precheckin.new
   end
 
   def create
     @precheckin = Precheckin.new(precheckin_params)
+
     if @precheckin.save
       redirect_to root_path
     else

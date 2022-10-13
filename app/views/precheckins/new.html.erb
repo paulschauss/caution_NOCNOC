@@ -1,15 +1,23 @@
+<%= image_tag "photo-tupin.jpg", class: 'photo-banner'  %>
+
 <div class="container">
-  <h1>New pre-CI</h1>
-  <%= simple_form_for [@booking, @precheckin] do |f| %>
-    <%= f.input :first_name %>
-    <%= f.input :last_name %>
-    <%= f.input :email %>
-
-    <!-- Stripe hold a card Element below -->
-    <div id="card"></div>
-
-    <%= f.submit %>
-  <% end %>
+  <div class="CheckIn">
+    <div class="CheckIn-infos">
+      <%= image_tag "logo-nocnoc.png", class: 'logo'  %>
+      <h1>Détails réservation</h1>
+      <p><%= @property.name %> - <%= @property.address %>, <%= @property.zip %> <%= @property.city %></p>
+      <p>CI : <%= @booking.arrival %></p>
+      <p>C0 : <%= @booking.departure %></p>
+    </div>
+    <div class="CheckIn-card">
+      <%= simple_form_for [@booking, @precheckin] do |f| %>
+        <%= f.input :first_name %>
+        <%= f.input :last_name %>
+        <%= f.input :email %>
+        <%= f.submit %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <script charset="utf-8">
