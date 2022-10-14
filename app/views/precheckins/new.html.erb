@@ -11,14 +11,22 @@
     </div>
     <div class="CheckIn-card">
       <%= simple_form_for [@booking, @precheckin] do |f| %>
+        <input type="hidden" name="authencity_token" id="<%= form_authenticity_token %>">
+        <input type="hidden" name="submission[stripe_payment_id]" id="payment">
+
         <%= f.input :first_name %>
         <%= f.input :last_name %>
         <%= f.input :email %>
+
+        <div id='card'></div>
+
         <%= f.submit %>
       <% end %>
     </div>
   </div>
 </div>
+
+
 
 <script charset="utf-8">
   var stripe = Stripe('<%= Rails.configuration.stripe[:publishable_key] %>');
@@ -48,6 +56,42 @@
   var cardElement = elements.create('card', {
     style: styles,
     hidePostalCode: true,
-    });
+  });
   cardElement.mount('#card');
+
+  const form = document.querySelector('#new_precheckin');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    // POST request
+    fetch('/payment_intents', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        authenticity_token: '<%= form_authenticity_token %>',
+      }),
+    })
+    .then((response) => response.json())
+    .then((paymentIntent) => {
+      stripe.confirmCardPayment(
+        paymentIntent.client_secret, {
+          payment_method: {
+            card: cardElement
+          }
+        }
+      ).then((response) => {
+        if (response.error) {
+          alert(response.error.message);
+        } else {
+          const paymentIdInput = document.querySelector('#payment');
+          paymentIdInput.value = paymentIntent.id;
+          form.submit();
+        }
+      })
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  });
 </script>
