@@ -1,6 +1,7 @@
 class PrecheckinsController < ApplicationController
+  before_action :set_booking, only: %i[new create]
+
   def new
-    @booking    = Booking.find(params[:booking_id])
     @guest      = @booking.guest
     @property   = @booking.property
     @precheckin = Precheckin.new
@@ -8,11 +9,13 @@ class PrecheckinsController < ApplicationController
 
   def create
     @precheckin = Precheckin.new(precheckin_params)
+    @precheckin.booking = @booking
 
     if @precheckin.save
-      redirect_to root_path
+      redirect_to booking_precheckin_path(@precheckin.booking, @precheckin)
     else
-      render :new
+      flash[:alert] = 'Something went wrong'
+      render 'new', status: :unprocessable_entity
     end
   end
 
@@ -22,7 +25,16 @@ class PrecheckinsController < ApplicationController
 
   private
 
+  def set_booking
+    @booking = Booking.find(params[:booking_id])
+  end
+
   def precheckin_params
-    params.require(:precheckin).permit(:first_name, :last_name, :email, :language, :status, :booking_id)
+    params.require(:precheckin).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :stripe_payment_id
+    )
   end
 end
